@@ -3,10 +3,10 @@
 A targeted Selenium test framework that validates e-commerce workflows. Built to handle real shopping scenarios, not just login-logout.
 
 ## The Stack
-- **Python 3.8+** - Because it's readable and gets the job done
+- **Python 3.8+** -
 - **Selenium 4** - Modern browser automation
-- **Pytest** - Test runner that doesn't suck
-- **Page Object Model** - So you don't hate yourself in 6 months
+- **Pytest** - Test runner 
+- **Page Object Model** - 
 
 ## Setup 
 ```bash

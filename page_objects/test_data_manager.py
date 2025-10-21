@@ -3,7 +3,7 @@ import openpyxl
 from datetime import datetime
 
 class BoutiqueTestData:
-    """Manages test data for fashion boutique testing"""
+    
     
     def __init__(self):
         self.test_run_id = datetime.now().strftime("%Y%m%d_%H%M%S")

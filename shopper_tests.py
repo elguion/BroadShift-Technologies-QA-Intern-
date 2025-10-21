@@ -17,7 +17,7 @@ class TestBoutiqueShoppingExperience:
         chrome_options.add_argument("--window-size=1920,1080")
         chrome_options.add_argument("--disable-notifications")
         
-        # Initialize WebDriver with error handling
+        # Initialising WebDriver with error handling
         try:
             self.driver = webdriver.Chrome(ChromeDriverManager().install(), options=chrome_options)
         except Exception as e:
@@ -29,7 +29,7 @@ class TestBoutiqueShoppingExperience:
         
         yield
         
-        # Capture screenshot on failure
+        # Capturing screenshot on failure
         if hasattr(self, '_test_outcome') and self._test_outcome.errors:
             test_name = self._test_outcome._test_method_name
             screenshot_path = f"test_reports/test_evidence/failure_{test_name}_{self.test_data.test_run_id}.png"
@@ -40,7 +40,7 @@ class TestBoutiqueShoppingExperience:
     
     def test_premium_shopper_complete_purchase(self):
         """Validates complete purchase flow for premium customer"""
-        # Initialize page objects
+        
         home_page = BoutiqueHomePage(self.driver)
         collection_gallery = CollectionGallery(self.driver)
         fitting_room = FittingRoomPage(self.driver)
@@ -51,11 +51,11 @@ class TestBoutiqueShoppingExperience:
         home_page.navigate_to_boutique()
         home_page.attempt_login("standard_user", "secret_sauce")
         
-        # Verify successful login by checking inventory page loaded
+        # Verification of successful login by checking inventory page loaded
         assert "inventory" in self.driver.current_url, "Login failed - not redirected to inventory"
         print("✅ Successfully accessed boutique collection")
         
-        # Step 2: Browse and select items
+        #Browse and select items
         summer_dress = self.product_variants["summer_dress"]["name"]
         collection_gallery.add_item_to_dressing_room(summer_dress)
         
@@ -64,18 +64,18 @@ class TestBoutiqueShoppingExperience:
         
         print("✅ Selected multiple fashion items for purchase")
         
-        # Step 3: Proceed to checkout
+        #  Proceed to checkout
         fitting_room.proceed_to_checkout()
         
-        # Step 4: Fill customer information
+        #  Fill customer information
         premium_customer = self.customer_profiles["premium_shopper"]
         fitting_room.fill_customer_details(premium_customer)
         
-        # Step 5: Complete purchase
+        #  Complete purchase
         finish_btn = self.driver.find_element(By.ID, "finish")
         finish_btn.click()
         
-        # Verify order completion
+        # Verification of order completion
         confirmation_element = self.driver.find_element(By.CLASS_NAME, "complete-header")
         assert "Thank you for your order" in confirmation_element.text
         print("🎉 Premium shopper purchase completed successfully!")
@@ -91,17 +91,17 @@ class TestBoutiqueShoppingExperience:
         home_page.navigate_to_boutique()
         home_page.attempt_login("problem_user", "secret_sauce")
         
-        # Verify login success
+        # Verification login success
         assert "inventory" in self.driver.current_url, "Problem user login failed"
         
-        # Attempt to interact with collections (problem_user has specific issues)
+        #.   Attempt to interact with collections (problem_user has specific issues)
         try:
             collection_gallery.add_item_to_dressing_room("Sauce Labs Bolt T-Shirt")
             print("✅ Guest browsing interaction successful")
         except Exception as e:
             print(f"⚠️  Expected issue with problem user: {str(e)}")
         
-        # Validate cart badge updates
+        #  Validate cart badge updates
         cart_badge = self.driver.find_element(By.CLASS_NAME, "shopping_cart_badge")
         assert cart_badge.text.isdigit(), "Cart badge not updating correctly"
         print(f"🛒 Cart shows {cart_badge.text} items")
